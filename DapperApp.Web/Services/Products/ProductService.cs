@@ -18,6 +18,25 @@ namespace DapperApp.Web.Services.Products
             _db=context.CreateConnection();
             
         }
+
+        public async Task ChangeStatusAsync(int id)
+        {
+            var product =await GetByIdAsync(id);
+            var parameters = new DynamicParameters();
+            parameters.Add("@ProductId", id);
+            if (product.IsActive)
+            {
+                parameters.Add("@IsActive", false);
+            }
+            else
+            {
+                parameters.Add("IsActive", true);
+            }
+                string query = "update products set IsActive=@IsActive where ProductId=@ProductId";
+           
+            await _db.ExecuteAsync(query,parameters);
+        }
+
         public async Task CreateAsync(CreateProductDto productDto)
         {
             string query = "insert into products (Name,Price,Stock,ImageUrl,IsActive,CategoryId) values(@Name,@Price,@Stock,@ImageUrl,@IsActive,@CategoryId)";
@@ -51,7 +70,7 @@ namespace DapperApp.Web.Services.Products
             string query = "select * from products where ProductId=@ProductId";
             var parameters = new DynamicParameters();
             parameters.Add("@ProductId",id);
-            return await _db.QueryFirstOrDefaultAsync<UpdateProductDto>(query);
+            return await _db.QueryFirstOrDefaultAsync<UpdateProductDto>(query,parameters);
         }
 
         public async Task UpdateAsync(UpdateProductDto productDto)

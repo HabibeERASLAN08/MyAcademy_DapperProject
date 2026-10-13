@@ -12,5 +12,7 @@ namespace DapperApp.Web.Services.Products
         Task UpdateAsync(UpdateProductDto productDto);
 
         Task DeleteAsync(int id);
+
+        Task ChangeStatusAsync(int id);
     }
 }

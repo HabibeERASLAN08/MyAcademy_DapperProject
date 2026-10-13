@@ -11,7 +11,7 @@ namespace DapperApp.Web.DTOs.Products
         public int Stock { get; set; }
         public string ImageUrl{ get; set; }
         public bool IsActive{ get; set; }
-        public bool CategoryId{ get; set; }
+        public int CategoryId{ get; set; }
         public ResultCategoryDto Category{ get; set; }
     }
 }
